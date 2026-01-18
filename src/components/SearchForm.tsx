@@ -172,7 +172,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
                                 onChange={(e) => handleOriginChange(e.target.value)}
                                 onFocus={() => setShowOriginSuggestions(true)}
                                 placeholder="City or airport"
-                                className="swiss-input pl-10 h-12 text-lg font-medium"
+                                className="swiss-input !pl-14 h-12 text-lg font-medium"
                                 required
                             />
                         </div>
@@ -237,7 +237,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
                                 onChange={(e) => handleDestinationChange(e.target.value)}
                                 onFocus={() => setShowDestinationSuggestions(true)}
                                 placeholder="City or airport"
-                                className="swiss-input pl-10 h-12 text-lg font-medium"
+                                className="swiss-input !pl-14 h-12 text-lg font-medium"
                                 required
                             />
                         </div>
