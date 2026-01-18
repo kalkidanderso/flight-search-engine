@@ -1,6 +1,6 @@
 # Flight Search Engine
 
-A responsive flight search application built with Next.js 14, TypeScript, and the Amadeus API. This project demonstrates real-time data visualization, advanced filtering capabilities, and a modern user interface design.
+A responsive flight search application built with Next.js 16, TypeScript, and the Amadeus API. This project demonstrates real-time data visualization, advanced filtering capabilities, and a modern user interface design.
 
 ## Features
 
@@ -20,7 +20,7 @@ A responsive flight search application built with Next.js 14, TypeScript, and th
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Charts**: Recharts
