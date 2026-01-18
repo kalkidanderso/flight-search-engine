@@ -76,13 +76,13 @@ export default function FilterPanel({
             {/* Mobile Filter Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden fixed bottom-6 right-6 z-50 btn-primary rounded-full w-14 h-14 flex items-center justify-center shadow-2xl pulse-glow"
+                className="md:hidden fixed bottom-6 right-6 z-50 btn-primary rounded-full w-14 h-14 flex items-center justify-center shadow-2xl"
             >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
                 {activeFilterCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold border-2 border-white">
                         {activeFilterCount}
                     </span>
                 )}
@@ -91,34 +91,35 @@ export default function FilterPanel({
             {/* Filter Panel */}
             <div className={`
         fixed md:sticky top-0 left-0 w-full md:w-auto h-full md:h-auto
-        bg-black/50 md:bg-transparent z-40
+        bg-black/20 md:bg-transparent z-40 backdrop-blur-sm md:backdrop-blur-none
         ${isOpen ? 'block' : 'hidden md:block'}
       `}>
                 <div className={`
-          glass-card h-full md:h-auto overflow-y-auto
-          transform transition-transform duration-300
+          swiss-card h-full md:h-auto overflow-y-auto bg-white p-6 md:p-6 rounded-none md:rounded-xl
+          transform transition-transform duration-300 md:transform-none shadow-xl md:shadow-sm
           ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+          w-80 md:w-full
         `}>
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-6 sticky top-0 bg-gray-900/50 backdrop-blur-sm p-4 md:p-0 md:bg-transparent -m-6 md:m-0 mb-6">
+                    <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h3 className="text-xl font-semibold text-white">Filters</h3>
+                            <h3 className="text-lg font-bold text-slate-900">Filters</h3>
                             {activeFilterCount > 0 && (
-                                <p className="text-sm text-gray-400">{activeFilterCount} active</p>
+                                <p className="text-xs text-slate-500 font-medium mt-1">{activeFilterCount} active filters</p>
                             )}
                         </div>
                         <div className="flex gap-2">
                             {activeFilterCount > 0 && (
                                 <button
                                     onClick={clearAllFilters}
-                                    className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                                    className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-wide"
                                 >
-                                    Clear all
+                                    Reset
                                 </button>
                             )}
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="md:hidden text-gray-400 hover:text-white"
+                                className="md:hidden text-slate-400 hover:text-slate-600"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -127,24 +128,24 @@ export default function FilterPanel({
                         </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-8 divide-y divide-slate-100">
                         {/* Stops Filter */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-3">Stops</h4>
-                            <div className="space-y-2">
+                        <div className="pt-2 first:pt-0">
+                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Stops</h4>
+                            <div className="space-y-3">
                                 {[
                                     { value: 0, label: 'Non-stop' },
                                     { value: 1, label: '1 stop' },
                                     { value: 2, label: '2+ stops' },
                                 ].map(({ value, label }) => (
-                                    <label key={value} className="flex items-center gap-3 cursor-pointer group">
+                                    <label key={value} className="flex items-center gap-3 cursor-pointer group select-none">
                                         <input
                                             type="checkbox"
                                             checked={localFilters.stops.includes(value)}
                                             onChange={() => toggleStop(value)}
-                                            className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                                            className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 transition-colors"
                                         />
-                                        <span className="text-gray-300 group-hover:text-white transition-colors">
+                                        <span className="text-slate-600 font-medium group-hover:text-slate-900 transition-colors">
                                             {label}
                                         </span>
                                     </label>
@@ -153,9 +154,9 @@ export default function FilterPanel({
                         </div>
 
                         {/* Price Range */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-3">Price Range</h4>
-                            <div className="space-y-3">
+                        <div className="pt-6">
+                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Price Range</h4>
+                            <div className="space-y-4">
                                 <input
                                     type="range"
                                     min={priceRange[0]}
@@ -165,33 +166,33 @@ export default function FilterPanel({
                                         ...localFilters,
                                         priceRange: [priceRange[0], Number(e.target.value)]
                                     })}
-                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                    className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
                                 />
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-400">${priceRange[0]}</span>
-                                    <span className="text-white font-semibold">${localFilters.priceRange[1]}</span>
+                                <div className="flex justify-between text-sm font-medium">
+                                    <span className="text-slate-500">${priceRange[0]}</span>
+                                    <span className="text-slate-900">${localFilters.priceRange[1]}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Airlines */}
                         {availableAirlines.length > 0 && (
-                            <div>
-                                <h4 className="font-semibold text-white mb-3">Airlines</h4>
-                                <div className="space-y-2 max-h-48 overflow-y-auto">
+                            <div className="pt-6">
+                                <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Airlines</h4>
+                                <div className="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
                                     {availableAirlines.map(({ code, name }) => (
-                                        <label key={code} className="flex items-center gap-3 cursor-pointer group">
+                                        <label key={code} className="flex items-center gap-3 cursor-pointer group select-none">
                                             <input
                                                 type="checkbox"
                                                 checked={localFilters.airlines.includes(code)}
                                                 onChange={() => toggleAirline(code)}
-                                                className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                                                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 transition-colors"
                                             />
-                                            <div className="flex items-center gap-2 flex-1">
-                                                <div className="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                                                <div className="w-6 h-6 rounded bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-600 text-[10px] font-bold border border-slate-200">
                                                     {code}
                                                 </div>
-                                                <span className="text-gray-300 group-hover:text-white transition-colors text-sm">
+                                                <span className="text-slate-600 font-medium group-hover:text-slate-900 transition-colors text-sm truncate">
                                                     {name}
                                                 </span>
                                             </div>
@@ -202,50 +203,50 @@ export default function FilterPanel({
                         )}
 
                         {/* Departure Time */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-3">Departure Time</h4>
+                        <div className="pt-6">
+                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Departure Time</h4>
                             <div className="grid grid-cols-2 gap-2">
                                 {timeSlots.map(({ value, label, icon, time }) => (
                                     <button
                                         key={value}
                                         onClick={() => toggleTimeSlot('departureTime', value)}
-                                        className={`p-3 rounded-lg border transition-all duration-300 ${localFilters.departureTime.includes(value)
-                                                ? 'border-blue-500 bg-blue-500/20 text-white'
-                                                : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-white'
+                                        className={`p-3 rounded-lg border text-left transition-all duration-200 ${localFilters.departureTime.includes(value)
+                                            ? 'border-blue-600 bg-blue-50 text-blue-900 shadow-sm'
+                                            : 'border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
                                             }`}
                                     >
-                                        <div className="text-2xl mb-1">{icon}</div>
-                                        <div className="text-xs font-semibold">{label}</div>
-                                        <div className="text-xs opacity-70">{time}</div>
+                                        <div className="text-xl mb-1 filter grayscale">{icon}</div>
+                                        <div className="text-xs font-bold">{label}</div>
+                                        <div className="text-[10px] opacity-70 font-medium">{time}</div>
                                     </button>
                                 ))}
                             </div>
                         </div>
 
                         {/* Arrival Time */}
-                        <div>
-                            <h4 className="font-semibold text-white mb-3">Arrival Time</h4>
+                        <div className="pt-6">
+                            <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-4">Arrival Time</h4>
                             <div className="grid grid-cols-2 gap-2">
                                 {timeSlots.map(({ value, label, icon, time }) => (
                                     <button
                                         key={value}
                                         onClick={() => toggleTimeSlot('arrivalTime', value)}
-                                        className={`p-3 rounded-lg border transition-all duration-300 ${localFilters.arrivalTime.includes(value)
-                                                ? 'border-purple-500 bg-purple-500/20 text-white'
-                                                : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-white'
+                                        className={`p-3 rounded-lg border text-left transition-all duration-200 ${localFilters.arrivalTime.includes(value)
+                                            ? 'border-blue-600 bg-blue-50 text-blue-900 shadow-sm'
+                                            : 'border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
                                             }`}
                                     >
-                                        <div className="text-2xl mb-1">{icon}</div>
-                                        <div className="text-xs font-semibold">{label}</div>
-                                        <div className="text-xs opacity-70">{time}</div>
+                                        <div className="text-xl mb-1 filter grayscale">{icon}</div>
+                                        <div className="text-xs font-bold">{label}</div>
+                                        <div className="text-[10px] opacity-70 font-medium">{time}</div>
                                     </button>
                                 ))}
                             </div>
                         </div>
 
                         {/* Baggage */}
-                        <div>
-                            <label className="flex items-center gap-3 cursor-pointer group">
+                        <div className="pt-6">
+                            <label className="flex items-center gap-3 cursor-pointer group select-none bg-slate-50 p-3 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors">
                                 <input
                                     type="checkbox"
                                     checked={localFilters.includedBaggage || false}
@@ -253,13 +254,13 @@ export default function FilterPanel({
                                         ...localFilters,
                                         includedBaggage: e.target.checked || undefined
                                     })}
-                                    className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                                    className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 transition-colors"
                                 />
                                 <div className="flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                     </svg>
-                                    <span className="text-gray-300 group-hover:text-white transition-colors">
+                                    <span className="text-slate-700 font-semibold text-sm">
                                         Checked bag included
                                     </span>
                                 </div>

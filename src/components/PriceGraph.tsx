@@ -53,9 +53,9 @@ export default function PriceGraph({ flights, currency = 'USD' }: PriceGraphProp
     const CustomTooltip = ({ active, payload }: any) => {
         if (active && payload && payload.length) {
             return (
-                <div className="glass-card p-3 border border-white/20">
-                    <p className="text-white font-semibold">{payload[0].payload.label}</p>
-                    <p className="text-blue-400 text-sm">
+                <div className="bg-white p-3 border border-slate-100 shadow-xl rounded-lg">
+                    <p className="text-slate-900 font-bold mb-1">{payload[0].payload.label}</p>
+                    <p className="text-blue-600 text-xs font-semibold">
                         {payload[0].value} {payload[0].value === 1 ? 'flight' : 'flights'}
                     </p>
                 </div>
@@ -65,71 +65,77 @@ export default function PriceGraph({ flights, currency = 'USD' }: PriceGraphProp
     };
 
     return (
-        <div className="glass-card fade-in">
+        <div className="swiss-card bg-white p-6 fade-in shadow-sm border border-slate-100/50">
             <div className="mb-6">
-                <h3 className="text-xl font-semibold text-white mb-2">Price Distribution</h3>
-                <p className="text-sm text-gray-400">
-                    Real-time price trends across {flights.length} available flights
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Price Trends</h3>
+                <p className="text-xs text-slate-500 font-medium">
+                    Distribution based on {flights.length} results
                 </p>
             </div>
 
             <ResponsiveContainer width="100%" height={300}>
                 <AreaChart
                     data={chartData}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                 >
                     <defs>
                         <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#667eea" stopOpacity={0.8} />
-                            <stop offset="95%" stopColor="#764ba2" stopOpacity={0.1} />
+                            <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1} />
+                            <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                     <XAxis
                         dataKey="label"
-                        stroke="rgba(255,255,255,0.5)"
-                        tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
+                        stroke="#94a3b8"
+                        tick={{ fill: '#64748b', fontSize: 10, fontWeight: 500 }}
+                        tickLine={false}
+                        axisLine={false}
+                        dy={10}
                         angle={-45}
                         textAnchor="end"
-                        height={80}
+                        height={60}
                     />
                     <YAxis
-                        stroke="rgba(255,255,255,0.5)"
-                        tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 12 }}
-                        label={{ value: 'Number of Flights', angle: -90, position: 'insideLeft', fill: 'rgba(255,255,255,0.7)' }}
+                        stroke="#94a3b8"
+                        tick={{ fill: '#64748b', fontSize: 10, fontWeight: 500 }}
+                        tickLine={false}
+                        axisLine={false}
+                        dx={-10}
+                        label={{ value: 'Flights', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 10 }}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '3 3' }} />
                     <Area
                         type="monotone"
                         dataKey="count"
-                        stroke="#667eea"
-                        strokeWidth={3}
+                        stroke="#2563eb"
+                        strokeWidth={2}
                         fillOpacity={1}
                         fill="url(#colorPrice)"
-                        animationDuration={800}
+                        animationDuration={1000}
                     />
                 </AreaChart>
             </ResponsiveContainer>
 
-            <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                <div className="glass p-3 rounded-lg">
-                    <div className="text-sm text-gray-400">Cheapest</div>
-                    <div className="text-lg font-bold text-green-400">
+            <div className="mt-8 grid grid-cols-3 gap-4 text-center divide-x divide-slate-100">
+                <div className="px-2">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Cheapest</div>
+                    <div className="text-lg font-extrabold text-emerald-600">
                         {formatPrice(Math.min(...flights.map(f => parseFloat(f.price.total))), currency)}
                     </div>
                 </div>
-                <div className="glass p-3 rounded-lg">
-                    <div className="text-sm text-gray-400">Average</div>
-                    <div className="text-lg font-bold text-blue-400">
+                <div className="px-2">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Average</div>
+                    <div className="text-lg font-extrabold text-blue-600">
                         {formatPrice(
                             flights.reduce((sum, f) => sum + parseFloat(f.price.total), 0) / flights.length,
                             currency
                         )}
                     </div>
                 </div>
-                <div className="glass p-3 rounded-lg">
-                    <div className="text-sm text-gray-400">Most Expensive</div>
-                    <div className="text-lg font-bold text-purple-400">
+                <div className="px-2">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Max</div>
+                    <div className="text-lg font-extrabold text-slate-600">
                         {formatPrice(Math.max(...flights.map(f => parseFloat(f.price.total))), currency)}
                     </div>
                 </div>

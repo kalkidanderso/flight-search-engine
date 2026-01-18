@@ -100,40 +100,49 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20"></div>
-        <div className="container-custom section-padding relative z-10">
-          <div className="text-center mb-12 fade-in">
-            <h1 className="heading-1 gradient-text mb-4">
-              Find Your Perfect Flight
+    <main className="min-h-screen bg-gray-50/50">
+      {/* Navbar / Header */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+        <div className="container-custom py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+              ✈
+            </div>
+            <span className="font-bold text-xl tracking-tight text-slate-900">FlightSearch</span>
+          </div>
+          {process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true' && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-xs font-semibold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              Demo Mode
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Hero Section - Clean & Minimal */}
+      <div className="bg-white border-b border-gray-200 pb-16 pt-16">
+        <div className="container-custom">
+          <div className="text-center mb-10 fade-in">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-4">
+              Where to next?
             </h1>
-            <p className="body-large text-gray-300 max-w-2xl mx-auto">
-              Search, compare, and book flights with real-time pricing and advanced filtering
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+              Search global flights with real-time pricing and precision filtering.
             </p>
-            {process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true' && (
-              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/50 text-yellow-200 text-sm">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Dev Mode: Using Mock Data (Amadeus API currently unavailable)
-              </div>
-            )}
           </div>
 
           <SearchForm onSearch={handleSearch} isLoading={isLoading} />
 
           {error && (
-            <div className="mt-6 glass-card border-l-4 border-red-500 bg-red-500/10">
-              <div className="flex items-center gap-3">
-                <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="mt-8 max-w-4xl mx-auto bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
+              <div className="text-red-600 mt-0.5">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <div>
-                  <h4 className="font-semibold text-red-400">Error</h4>
-                  <p className="text-sm text-red-300">{error}</p>
-                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-900 text-sm">Search Error</h4>
+                <p className="text-red-700 text-sm mt-1">{error}</p>
               </div>
             </div>
           )}
@@ -142,7 +151,7 @@ export default function Home() {
 
       {/* Results Section */}
       {hasSearched && (
-        <div className="container-custom section-padding">
+        <div className="container-custom py-12">
           {/* Price Graph */}
           {allFlights.length > 0 && (
             <div className="mb-8">
@@ -152,7 +161,7 @@ export default function Home() {
 
           {/* Filters and Results */}
           {allFlights.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Filter Sidebar */}
               <div className="lg:col-span-1">
                 <FilterPanel
@@ -176,17 +185,32 @@ export default function Home() {
 
           {/* No Results After Search */}
           {!isLoading && allFlights.length === 0 && hasSearched && !error && (
-            <FlightResults flights={[]} carriers={{}} isLoading={false} />
+            <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 mb-4 text-gray-400">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">No flights found</h3>
+              <p className="text-gray-500 mt-1">Try adjusting your dates or destination.</p>
+            </div>
           )}
         </div>
       )}
 
       {/* Footer */}
-      <footer className="border-t border-white/10 mt-20">
-        <div className="container-custom py-8">
-          <div className="text-center text-gray-400 text-sm">
-            <p>© 2026 Flight Search Engine. Built with Next.js, TypeScript, and Amadeus API.</p>
-            <p className="mt-2">Designed for excellence and user experience.</p>
+      <footer className="border-t border-gray-200 bg-white mt-auto">
+        <div className="container-custom py-12">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-slate-900 rounded flex items-center justify-center text-white text-xs font-bold">
+                F
+              </div>
+              <span className="font-semibold text-slate-900">FlightSearch</span>
+            </div>
+            <p className="text-slate-500 text-sm">
+              © 2026 Flight Search Engine. Professional Demo.
+            </p>
           </div>
         </div>
       </footer>
